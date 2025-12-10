@@ -381,9 +381,9 @@ const.GlowType = {
 ---@enum Textures
 const.Textures = {
     SOLID = "Interface\\Buttons\\WHITE8X8",
-    CELL_SHIELD = "Interface\\AddOns\\Cell\\Media\\shield",
-    CELL_OVERSHIELD = "Interface\\AddOns\\Cell\\Media\\overshield",
-    CELL_OVERABSORB = "Interface\\AddOns\\Cell\\Media\\overabsorb",
+    CELL_SHIELD = "Interface\\AddOns\\Cell_Wrath\\Media\\shield",
+    CELL_OVERSHIELD = "Interface\\AddOns\\Cell_Wrath\\Media\\overshield",
+    CELL_OVERABSORB = "Interface\\AddOns\\Cell_Wrath\\Media\\overabsorb",
     BLIZZARD_SHIELD_FILL = "Interface\\RaidFrame\\Shield-Fill",
     BLIZZARD_SHIELD_OVERLAY = "Interface\\RaidFrame\\Shield-Overlay",
     BLIZZARD_OVERSHIELD = "Interface\\RaidFrame\\Shield-Overshield",

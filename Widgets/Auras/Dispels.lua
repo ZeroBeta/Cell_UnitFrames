@@ -392,10 +392,10 @@ local function UpdateIconStyle(self, style)
     for _, icon in pairs(self.icons) do
         if style == "rhombus" then
             icon.SetDispel = SetDispelIcon_Rhombus
-            icon:SetTexture("Interface\\AddOns\\Cell\\Media\\Debuffs\\Rhombus")
+            icon:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Debuffs\\Rhombus")
         elseif style == "blizzard" then
             icon.SetDispel = SetDispelIcon_Blizzard
-            icon:SetTexture("Interface\\AddOns\\Cell\\Media\\Debuffs\\" .. icon.type)
+            icon:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Debuffs\\" .. icon.type)
             icon:SetVertexColor(1, 1, 1, 1)
         end
         icon:Hide()

@@ -1970,7 +1970,7 @@ function Builder:CreateCustomTextOptions(parent, widgetName)
     tagHint:SetPoint("LEFT", formatEditBox, "RIGHT", 5, 0)
     tagHint.tex = tagHint:CreateTexture(nil, "ARTWORK")
     tagHint.tex:SetAllPoints(tagHint)
-    tagHint.tex:SetTexture("Interface\\AddOns\\Cell\\Media\\Icons\\info2.tga")
+    tagHint.tex:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\info2.tga")
 
     tagHint:SetScript("OnClick", function()
         W.ShowTooltipFrame()
@@ -2145,23 +2145,23 @@ function Builder:CreateDispelsOptions(parent, widgetName)
         const.OPTION_KIND.ONLY_SHOW_DISPELLABLE)
     self:AnchorBelow(dispellableByMe, highLightType)
 
-    local curse = self:CreateCheckBox(f, widgetName, "|TInterface\\AddOns\\Cell\\Media\\Debuffs\\Curse:0|t" .. L
+    local curse = self:CreateCheckBox(f, widgetName, "|TInterface\\AddOns\\Cell_Wrath\\Media\\Debuffs\\Curse:0|t" .. L
         ["Curse"], const.OPTION_KIND.CURSE)
     self:AnchorBelowCB(curse, dispellableByMe)
 
     local disease = self:CreateCheckBox(f, widgetName,
-        "|TInterface\\AddOns\\Cell\\Media\\Debuffs\\Disease:0|t" .. L["Disease"], const.OPTION_KIND.DISEASE)
+        "|TInterface\\AddOns\\Cell_Wrath\\Media\\Debuffs\\Disease:0|t" .. L["Disease"], const.OPTION_KIND.DISEASE)
     self:AnchorRightOfCB(disease, curse)
 
-    local magic = self:CreateCheckBox(f, widgetName, "|TInterface\\AddOns\\Cell\\Media\\Debuffs\\Magic:0|t" .. L
+    local magic = self:CreateCheckBox(f, widgetName, "|TInterface\\AddOns\\Cell_Wrath\\Media\\Debuffs\\Magic:0|t" .. L
         ["Magic"], const.OPTION_KIND.MAGIC)
     self:AnchorRightOfCB(magic, disease)
 
     local poison = self:CreateCheckBox(f, widgetName,
-        "|TInterface\\AddOns\\Cell\\Media\\Debuffs\\Poison:0|t" .. L["Poison"], const.OPTION_KIND.POISON)
+        "|TInterface\\AddOns\\Cell_Wrath\\Media\\Debuffs\\Poison:0|t" .. L["Poison"], const.OPTION_KIND.POISON)
     self:AnchorBelowCB(poison, curse)
 
-    local bleed = self:CreateCheckBox(f, widgetName, "|TInterface\\AddOns\\Cell\\Media\\Debuffs\\Bleed:0|t" .. L
+    local bleed = self:CreateCheckBox(f, widgetName, "|TInterface\\AddOns\\Cell_Wrath\\Media\\Debuffs\\Bleed:0|t" .. L
         ["Bleed"], const.OPTION_KIND.BLEED)
     self:AnchorRightOfCB(bleed, poison)
 
@@ -2170,10 +2170,10 @@ function Builder:CreateDispelsOptions(parent, widgetName)
 
     -- Icon Style
     local blizzard = ""
-    local blizzard_icon = "|TInterface\\AddOns\\Cell\\Media\\Debuffs\\%s:0|t"
+    local blizzard_icon = "|TInterface\\AddOns\\Cell_Wrath\\Media\\Debuffs\\%s:0|t"
 
     local rhombus = ""
-    local rhombus_icon = "|TInterface\\AddOns\\Cell\\Media\\Debuffs\\Rhombus:0:0:0:0:16:16:0:16:0:16:%s:%s:%s|t"
+    local rhombus_icon = "|TInterface\\AddOns\\Cell_Wrath\\Media\\Debuffs\\Rhombus:0:0:0:0:16:16:0:16:0:16:%s:%s:%s|t"
 
     local types = { "Magic", "Curse", "Disease", "Poison", "Bleed" }
     for _, t in pairs(types) do

@@ -151,6 +151,24 @@ if not C_UnitAuras.GetAuraSlots then
 end
 
 -------------------------------------------------
+-- GameTooltip polyfills
+-- Retail uses auraInstanceID for tooltips
+-------------------------------------------------
+if not GameTooltip.SetUnitBuffByAuraInstanceID then
+    function GameTooltip:SetUnitBuffByAuraInstanceID(unit, auraInstanceID, filter)
+        -- In WotLK, auraInstanceID is just the aura index we use
+        self:SetUnitBuff(unit, auraInstanceID, filter)
+    end
+end
+
+if not GameTooltip.SetUnitDebuffByAuraInstanceID then
+    function GameTooltip:SetUnitDebuffByAuraInstanceID(unit, auraInstanceID, filter)
+        -- In WotLK, auraInstanceID is just the aura index we use
+        self:SetUnitDebuff(unit, auraInstanceID, filter)
+    end
+end
+
+-------------------------------------------------
 -- AuraUtil polyfill
 -- Provides retail-compatible aura iteration
 -------------------------------------------------
@@ -196,6 +214,11 @@ if not AuraUtil.ForEachAura then
 
             if not name then break end
 
+            -- Determine if aura is from a player or player pet
+            local isFromPlayer = source and (UnitIsPlayer(source) or UnitPlayerOrPetInParty(source) or UnitPlayerOrPetInRaid(source)) or false
+            -- Check if it's the player's own aura
+            local isPlayerAura = source and (source == "player" or UnitIsUnit(source, "player")) or false
+            
             -- Create AuraData-like table matching Retail structure
             local auraData = {
                 name = name,
@@ -204,7 +227,7 @@ if not AuraUtil.ForEachAura then
                 dispelName = debuffType or "",
                 duration = duration or 0,
                 expirationTime = expirationTime or 0,
-                sourceUnit = source,
+                sourceUnit = isPlayerAura and "player" or source,
                 isStealable = isStealable or false,
                 spellId = spellId or 0,
                 auraInstanceID = i, -- Use index as instance ID
@@ -213,6 +236,9 @@ if not AuraUtil.ForEachAura then
                 isNameplateOnly = false,
                 isBossAura = isBossDebuff or false,
                 canApplyAura = canApplyAura or false,
+                -- Additional fields needed by CheckFilter
+                isFromPlayerOrPlayerPet = isFromPlayer,
+                isRaid = false, -- WotLK doesn't have a direct way to determine this, defaults to false
             }
 
             callback(auraData)

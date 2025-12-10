@@ -72,7 +72,7 @@ local function CreateAuraButtons(parent, auraButtons, auraTable, noUpDownButtons
     -- new
     if not auraButtons[0] then
         auraButtons[0] = Cell.CreateButton(parent, "", "transparent-accent", { 20, 20 })
-        auraButtons[0]:SetTexture("Interface\\AddOns\\Cell\\Media\\Icons\\new", { 16, 16 }, { "RIGHT", -1, 0 })
+        auraButtons[0]:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\new", { 16, 16 }, { "RIGHT", -1, 0 })
         auraButtons[0]:SetPoint("BOTTOMLEFT")
         auraButtons[0]:SetPoint("RIGHT")
     end
@@ -134,7 +134,7 @@ local function CreateAuraButtons(parent, auraButtons, auraTable, noUpDownButtons
 
             -- del
             auraButtons[i].del = Cell.CreateButton(auraButtons[i], "", "none", { 18, 20 }, true, true)
-            auraButtons[i].del:SetTexture("Interface\\AddOns\\Cell\\Media\\Icons\\delete", { 16, 16 }, { "CENTER", 0, 0 })
+            auraButtons[i].del:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\delete", { 16, 16 }, { "CENTER", 0, 0 })
             auraButtons[i].del:SetPoint("RIGHT")
             auraButtons[i].del.tex:SetVertexColor(0.6, 0.6, 0.6, 1)
             auraButtons[i].del:SetScript("OnEnter", function()
@@ -149,7 +149,7 @@ local function CreateAuraButtons(parent, auraButtons, auraTable, noUpDownButtons
             -- edit
             -- auraButtons[i].edit = Cell.CreateButton(auraButtons[i], "", "none", {18, 20}, true, true)
             -- auraButtons[i].edit:SetPoint("RIGHT", auraButtons[i].del, "LEFT", 1, 0)
-            -- auraButtons[i].edit:SetTexture("Interface\\AddOns\\Cell\\Media\\Icons\\info", {16, 16}, {"CENTER", 0, 0})
+            -- auraButtons[i].edit:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\info", {16, 16}, {"CENTER", 0, 0})
             -- auraButtons[i].edit.tex:SetVertexColor(0.6, 0.6, 0.6, 1)
             -- auraButtons[i].edit:SetScript("OnEnter", function()
             --     auraButtons[i]:GetScript("OnEnter")(auraButtons[i])
@@ -163,7 +163,7 @@ local function CreateAuraButtons(parent, auraButtons, auraTable, noUpDownButtons
             -- down
             auraButtons[i].down = Cell.CreateButton(auraButtons[i], "", "none", { 18, 20 }, true, true)
             auraButtons[i].down:SetPoint("RIGHT", auraButtons[i].del, "LEFT", 1, 0)
-            auraButtons[i].down:SetTexture("Interface\\AddOns\\Cell\\Media\\Icons\\down", { 16, 16 }, { "CENTER", 0, 0 })
+            auraButtons[i].down:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\down", { 16, 16 }, { "CENTER", 0, 0 })
             auraButtons[i].down.tex:SetVertexColor(0.6, 0.6, 0.6, 1)
             auraButtons[i].down:SetScript("OnEnter", function()
                 auraButtons[i]:GetScript("OnEnter")(auraButtons[i])
@@ -177,7 +177,7 @@ local function CreateAuraButtons(parent, auraButtons, auraTable, noUpDownButtons
             -- up
             auraButtons[i].up = Cell.CreateButton(auraButtons[i], "", "none", { 18, 20 }, true, true)
             auraButtons[i].up:SetPoint("RIGHT", auraButtons[i].down, "LEFT", 1, 0)
-            auraButtons[i].up:SetTexture("Interface\\AddOns\\Cell\\Media\\Icons\\up", { 16, 16 }, { "CENTER", 0, 0 })
+            auraButtons[i].up:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\up", { 16, 16 }, { "CENTER", 0, 0 })
             auraButtons[i].up.tex:SetVertexColor(0.6, 0.6, 0.6, 1)
             auraButtons[i].up:SetScript("OnEnter", function()
                 auraButtons[i]:GetScript("OnEnter")(auraButtons[i])
@@ -474,7 +474,7 @@ function Builder.CreateSetting_Auras(parent, which, kind)
 
     widget.export = Cell.CreateButton(widget, nil, "accent-hover", { 21, 17 }, nil, nil, nil, nil, nil, L["Export"])
     widget.export:SetPoint("BOTTOMRIGHT", widget.frame, "TOPRIGHT", 0, 1)
-    widget.export:SetTexture("Interface\\AddOns\\Cell\\Media\\Icons\\export", { 15, 15 }, { "CENTER", 0, 0 })
+    widget.export:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\export", { 15, 15 }, { "CENTER", 0, 0 })
     widget.export:SetScript("OnClick", function()
         auraImportExportFrame.isImport = false
         auraImportExportFrame.parent = widget
@@ -493,7 +493,7 @@ function Builder.CreateSetting_Auras(parent, which, kind)
     widget.import = Cell.CreateButton(widget, nil, "accent-hover", { 21, 17 }, nil, nil, nil, nil, nil,
         L["Import"] .. " (" .. L.Override .. ")", L.OverrideImportTooltip)
     widget.import:SetPoint("BOTTOMRIGHT", widget.export, "BOTTOMLEFT", -1, 0)
-    widget.import:SetTexture("Interface\\AddOns\\Cell\\Media\\Icons\\import", { 15, 15 }, { "CENTER", 0, 0 })
+    widget.import:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\import", { 15, 15 }, { "CENTER", 0, 0 })
     widget.import:SetScript("OnClick", function()
         auraImportExportFrame.isImport = true
         auraImportExportFrame.parent = widget
@@ -512,7 +512,7 @@ function Builder.CreateSetting_Auras(parent, which, kind)
     widget.importAdditive = Cell.CreateButton(widget, nil, "accent-hover", { 21, 17 }, nil, nil, nil, nil, nil,
         L["Import"] .. " (" .. L.Additive .. ")", L.AdditiveImportTooltip)
     widget.importAdditive:SetPoint("BOTTOMRIGHT", widget.import, "BOTTOMLEFT", -1, 0)
-    widget.importAdditive:SetTexture("Interface\\AddOns\\Cell\\Media\\Icons\\import", { 15, 15 }, { "CENTER", 0, 0 })
+    widget.importAdditive:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\import", { 15, 15 }, { "CENTER", 0, 0 })
     widget.importAdditive:SetScript("OnClick", function()
         auraImportExportFrame.isImport = true
         auraImportExportFrame.parent = widget
@@ -531,7 +531,7 @@ function Builder.CreateSetting_Auras(parent, which, kind)
     widget.clear = Cell.CreateButton(widget, nil, "accent-hover", { 21, 17 }, nil, nil, nil, nil, nil, L["Clear"],
         "|cffffb5c5Ctrl+" .. L["Left-Click"])
     widget.clear:SetPoint("BOTTOMRIGHT", widget.importAdditive, "BOTTOMLEFT", -1, 0)
-    widget.clear:SetTexture("Interface\\AddOns\\Cell\\Media\\Icons\\trash", { 15, 15 }, { "CENTER", 0, 0 })
+    widget.clear:SetTexture("Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\trash", { 15, 15 }, { "CENTER", 0, 0 })
     widget.clear:SetScript("OnClick", function(self, button)
         if button == "LeftButton" and IsControlKeyDown() then
             table.wipe(widget.t)

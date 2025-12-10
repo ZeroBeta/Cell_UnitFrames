@@ -74,9 +74,9 @@ end
 -------------------------------------------------
 
 local READY_CHECK_STATUS = {
-    ready = { t = "Interface\\AddOns\\Cell\\Media\\Icons\\readycheck-ready", c = { 0, 1, 0, 1 } },
-    waiting = { t = "Interface\\AddOns\\Cell\\Media\\Icons\\readycheck-waiting", c = { 1, 1, 0, 1 } },
-    notready = { t = "Interface\\AddOns\\Cell\\Media\\Icons\\readycheck-notready", c = { 1, 0, 0, 1 } },
+    ready = { t = "Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\readycheck-ready", c = { 0, 1, 0, 1 } },
+    waiting = { t = "Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\readycheck-waiting", c = { 1, 1, 0, 1 } },
+    notready = { t = "Interface\\AddOns\\Cell_Wrath\\Media\\Icons\\readycheck-notready", c = { 1, 0, 0, 1 } },
 }
 
 ---@param button CUFUnitButton

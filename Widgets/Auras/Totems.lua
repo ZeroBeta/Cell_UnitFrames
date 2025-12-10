@@ -16,14 +16,14 @@ local const = CUF.constants
 local DB = CUF.DB
 local P = CUF.PixelPerfect
 
--- Blizzard has this at 4, but apparently the true max is 5
-local MAX_TOTEMS = 5
+-- WotLK only has 4 totem slots (Retail has 5)
+local MAX_TOTEMS = 4
 
 -- Blizzard grabs this information each time it updates totems, but this is essentially staic information
 local _, playerClass = UnitClass("player")
 -- WotLK: SHAMAN_TOTEM_PRIORITIES and STANDARD_TOTEM_PRIORITIES don't exist
--- Fallback to a simple index-based priority (1, 2, 3, 4, 5)
-local priorities = (playerClass == "SHAMAN" and SHAMAN_TOTEM_PRIORITIES) or STANDARD_TOTEM_PRIORITIES or { 1, 2, 3, 4, 5 }
+-- Fallback to a simple index-based priority (1, 2, 3, 4)
+local priorities = (playerClass == "SHAMAN" and SHAMAN_TOTEM_PRIORITIES) or STANDARD_TOTEM_PRIORITIES or { 1, 2, 3, 4 }
 
 -------------------------------------------------
 -- MARK: AddWidget
@@ -202,6 +202,10 @@ local function Totems_Update(self)
     for i = 1, self._maxNum do
         -- priorities 5+ is nil so we default to the index
         slot = priorities[i] or i
+        
+        -- WotLK Safety: Ensure we don't query invalid totem slots
+        if slot > MAX_TOTEMS then break end
+
         haveTotem, name, startTime, duration, icon = GetTotemInfo(slot)
 
         -- If you go beyond the *actual* limit of your max totems this will be nil, so we bail out

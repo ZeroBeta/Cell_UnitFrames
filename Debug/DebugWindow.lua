@@ -41,7 +41,7 @@ function DebugWindow:Create()
         end)
     frameStackButton:SetPoint("TOPRIGHT", self.frame, "TOPRIGHT", -5, -5)
 
-    local devToolButotn = CUF:CreateButton(frameStackButton, "DevTool", { 117, 16 }, function() DevTool:ToggleUI() end)
+    local devToolButotn = CUF:CreateButton(frameStackButton, "DevTool", { 117, 16 }, function() if DevTool then DevTool:ToggleUI() end end)
     devToolButotn:SetPoint("TOPRIGHT", frameStackButton, "BOTTOMRIGHT", 0, -2)
 
     local varTitle = CUF:CreateFrame(nil, self.frame, 1, 1, true, true) --[[@as CUFDebugVar]]

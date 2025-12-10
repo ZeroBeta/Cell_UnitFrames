@@ -65,7 +65,7 @@ end
 -------------------------------------------------
 -- MARK: Funcs
 -------------------------------------------------
-local ICON_PATH = "Interface\\AddOns\\Cell\\Media\\Roles\\"
+local ICON_PATH = "Interface\\AddOns\\Cell_Wrath\\Media\\Roles\\"
 
 ---@param self RoleIconWidget
 ---@param role string

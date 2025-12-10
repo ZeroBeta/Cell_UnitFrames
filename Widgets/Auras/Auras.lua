@@ -804,6 +804,10 @@ function W:CreateAuraIcons(button, type)
     end
     auraIcons.UpdateTempEnchantListener = UpdateTempEnchantListener
 
+    -- Standard widget setters (required for Handler to enable/disable)
+    auraIcons.SetEnabled = W.SetEnabled
+    auraIcons.SetPosition = W.SetRelativePosition
+
     return auraIcons
 end
 
