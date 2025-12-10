@@ -208,9 +208,11 @@ if not AuraUtil.ForEachAura then
 
         local i = 1
         while true do
-            local name, icon, count, debuffType, duration, expirationTime,
-                  source, isStealable, nameplateShowPersonal, spellId,
-                  canApplyAura, isBossDebuff = UnitAura(unit, i, filter)
+            -- WotLK UnitAura returns: name, rank, icon, count, debuffType, duration, expirationTime, source, isStealable, shouldConsolidate, spellId
+            local name, _, icon, count, debuffType, duration, expirationTime,
+                  source, isStealable, _, spellId = UnitAura(unit, i, filter)
+            local canApplyAura = false
+            local isBossDebuff = false
 
             if not name then break end
 
@@ -437,3 +439,5 @@ if not SPEC_WARLOCK_DESTRUCTION then SPEC_WARLOCK_DESTRUCTION = -1 end
 -- This is handled by not using empower spells
 
 -- Note: CUF:Log is not available at this early load stage
+
+

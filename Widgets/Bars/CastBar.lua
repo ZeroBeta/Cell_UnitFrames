@@ -263,6 +263,27 @@ local function ShouldShow(button, unit)
     return button.states.unit == unit
 end
 
+-- WotLK Compatibility Wrappers
+local function GetUnitCastingInfo(unit)
+    if not UnitCastingInfo then return end
+    if CUF.vars.isWrath then
+        local name, rank, displayName, icon, startTime, endTime, isTradeSkill, castID, interrupt = UnitCastingInfo(unit)
+        return name, displayName, icon, startTime, endTime, isTradeSkill, castID, interrupt
+    else
+        return UnitCastingInfo(unit)
+    end
+end
+
+local function GetUnitChannelInfo(unit)
+    if not UnitChannelInfo then return end
+    if CUF.vars.isWrath then
+        local name, rank, displayName, icon, startTime, endTime, isTradeSkill, interrupt = UnitChannelInfo(unit)
+        return name, displayName, icon, startTime, endTime, isTradeSkill, interrupt
+    else
+        return UnitChannelInfo(unit)
+    end
+end
+
 ---@param button CUFUnitButton
 ---@param event ("UNIT_SPELLCAST_START" | "UNIT_SPELLCAST_CHANNEL_START" | "UNIT_SPELLCAST_EMPOWER_START")?
 ---@param unit UnitToken
@@ -273,12 +294,12 @@ function CastStart(button, event, unit, castGUID)
     local castBar = button.widgets.castBar
 
     local name, displayName, texture, startTime, endTime, isTradeSkill, castID, notInterruptible, spellID =
-        UnitCastingInfo(unit)
+        GetUnitCastingInfo(unit)
 
     event = event or "UNIT_SPELLCAST_START"
     if not name then
         name, displayName, texture, startTime, endTime, isTradeSkill, notInterruptible, spellID =
-            UnitChannelInfo(unit)
+            GetUnitChannelInfo(unit)
         event = "UNIT_SPELLCAST_CHANNEL_START"
     end
 

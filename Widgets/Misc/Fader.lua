@@ -83,8 +83,8 @@ end
 
 ---@param frame Frame
 local function IsFrameFocused(frame)
-    local focusedFrames = GetMouseFoci()
-    return focusedFrames and focusedFrames[1] == frame
+    local focus = GetMouseFocus()
+    return focus == frame
 end
 
 ---@param self FaderWidget
