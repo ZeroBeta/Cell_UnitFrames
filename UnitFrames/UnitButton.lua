@@ -150,22 +150,32 @@ end
 ---@param frame CUFUnitFrame
 function U:UpdateUnitFrameVisibility(which, unit, button, frame)
     if InCombatLockdown() then return end
-    if not which or which == unit then
-        if CUF.DB.CurrentLayoutTable()[unit].enabled then
-            local visibility = DB.CurrentLayoutTable()[unit].visibility
-            if visibility ~= "" then
-                UnregisterUnitWatch(button)
-                RegisterAttributeDriver(button, 'state-visibility',
-                    "[@" .. button._unit .. ",noexists]hide;" .. visibility)
-            else
-                RegisterUnitWatch(button)
-            end
-            frame:Show()
+    if which and which ~= unit then return end
+
+    local layout = DB.CurrentLayoutTable()
+    if not layout or not layout[unit] then return end
+
+    local unitLayout = layout[unit]
+    if unitLayout.enabled then
+        local visibility = unitLayout.visibility or ""
+
+        -- Reset existing drivers before applying the current rule set
+        UnregisterUnitWatch(button)
+        UnregisterAttributeDriver(button, "state-visibility")
+
+        if visibility ~= "" then
+            RegisterAttributeDriver(button, "state-visibility",
+                "[@" .. button._unit .. ",noexists]hide;" .. visibility)
         else
-            UnregisterUnitWatch(button)
-            frame:Hide()
-            button:Hide()
+            RegisterUnitWatch(button)
         end
+        frame:Show()
+        button:Show()
+    else
+        UnregisterAttributeDriver(button, "state-visibility")
+        UnregisterUnitWatch(button)
+        frame:Hide()
+        button:Hide()
     end
 end
 

@@ -122,9 +122,9 @@ Defaults.Options.auraDurationFontOpt = {
 }
 ---@type FontWidthOpt
 Defaults.Options.fontWidth = {
-    value = 0.75,
-    type = "percentage",
-    auxValue = 3,
+    value = 8,
+    type = "length",
+    auxValue = 8,
 }
 ---@type GlowOpt
 Defaults.Options.glow = {
@@ -404,17 +404,17 @@ Defaults.Widgets = {
         font = Defaults.Options.smallFontOpt,
         color = Defaults.Options.colorOpt,
         width = {
-            value = 0.75,
-            type = "percentage",
-            auxValue = 3,
+            value = 8,
+            type = "length",
+            auxValue = 8,
         },
         position = {
-            point = "TOPLEFT",
-            offsetY = 8,
-            offsetX = 2,
+            point = "LEFT",
+            offsetY = 0,
+            offsetX = 0,
             relativePoint = "CENTER",
         },
-        format = CUF.constants.NameFormat.FULL_NAME,
+        format = CUF.constants.NameFormat.FIRST_NAME,
     },
     ---@type HealthTextWidgetTable
     healthText = {
@@ -436,7 +436,7 @@ Defaults.Widgets = {
     },
     ---@type PowerTextWidgetTable
     powerText = {
-        enabled = true,
+        enabled = false,
         font = Defaults.Options.smallFontOpt,
         color = Defaults.Options.colorOpt,
         format = "percentage",

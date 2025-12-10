@@ -2,6 +2,30 @@
 local CUF = select(2, ...)
 
 local Debug = CUF.Debug
+local DB = CUF.DB
+local Defaults = CUF.Defaults
+local Util = CUF.Util
+
+local function ResetAllUnitFrames()
+    if InCombatLockdown() then
+        CUF:Warn("Cannot reset while in combat.")
+        return
+    end
+
+    local layoutCount = 0
+    for _, layoutTable in pairs(CellDB.layouts) do
+        layoutTable.CUFUnits = Util:CopyDeep(Defaults.Layouts)
+        layoutCount = layoutCount + 1
+    end
+
+    DB.VerifyDB()
+    CUF:Fire("LoadPageDB", CUF.vars.selectedUnit, CUF.vars.selectedWidget)
+    CUF:Fire("UpdateUnitButtons")
+    CUF:Fire("UpdateWidget", DB.GetMasterLayout())
+
+    CUF:Print(string.format("Reset CUF unit frames to defaults for %d layout(s).", layoutCount))
+    ReloadUI()
+end
 
 SLASH_CUF1 = "/cuf"
 function SlashCmdList.CUF(msg, editbox)
@@ -30,6 +54,8 @@ function SlashCmdList.CUF(msg, editbox)
         CUF.widgets:ShowTooltipFrame()
     elseif command == "pixel" then
         CUF:Print(CUF.PixelPerfect.DebugInfo())
+    elseif command == "resetframes" then
+        ResetAllUnitFrames()
     else
         CUF:Print("Available commands:" .. "\n" ..
             "/cuf test - toggle test mode" .. "\n" ..
@@ -38,7 +64,8 @@ function SlashCmdList.CUF(msg, editbox)
             "/cuf restore <automatic|manual> - restore a backup" .. "\n" ..
             "/cuf resettips - reset all help tips" .. "\n" ..
             "/cuf tags - show available tags" .. "\n" ..
-            "/cuf pixel - show pixel debug info"
+            "/cuf pixel - show pixel debug info" .. "\n" ..
+            "/cuf resetframes - reset all CUF unit frames to defaults"
         )
     end
 end

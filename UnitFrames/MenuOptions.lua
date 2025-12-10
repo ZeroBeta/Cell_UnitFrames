@@ -80,10 +80,12 @@ end
 
 local function AddUnitsToMenu()
     for _, unit in pairs(CUF.constants.UNIT) do
+        local unitCopy = unit
         CUF.Menu:AddUnit(
         ---@param parent UnitsFramesTab
         ---@return UnitsMenuPage
             function(parent)
+                local unit = unitCopy
                 ---@class UnitsMenuPage
                 local unitPage = {}
 
