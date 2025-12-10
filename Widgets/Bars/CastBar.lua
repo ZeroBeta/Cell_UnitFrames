@@ -983,18 +983,37 @@ end
 local function SetOrientationStyle(self, orientation)
     self.orientation = orientation
 
+    local setFillStyle = self.statusBar.SetFillStyle
+    local setReverseFill = self.statusBar.SetReverseFill
+
     if orientation == const.GROWTH_ORIENTATION.LEFT_TO_RIGHT then
         self.statusBar:SetOrientation("HORIZONTAL")
-        self.statusBar:SetFillStyle("STANDARD")
+        if setFillStyle then
+            self.statusBar:SetFillStyle("STANDARD")
+        elseif setReverseFill then
+            setReverseFill(self.statusBar, false)
+        end
     elseif orientation == const.GROWTH_ORIENTATION.RIGHT_TO_LEFT then
         self.statusBar:SetOrientation("HORIZONTAL")
-        self.statusBar:SetFillStyle("REVERSE")
+        if setFillStyle then
+            self.statusBar:SetFillStyle("REVERSE")
+        elseif setReverseFill then
+            setReverseFill(self.statusBar, true)
+        end
     elseif orientation == const.GROWTH_ORIENTATION.BOTTOM_TO_TOP then
         self.statusBar:SetOrientation("VERTICAL")
-        self.statusBar:SetFillStyle("STANDARD")
+        if setFillStyle then
+            self.statusBar:SetFillStyle("STANDARD")
+        elseif setReverseFill then
+            setReverseFill(self.statusBar, false)
+        end
     elseif orientation == const.GROWTH_ORIENTATION.TOP_TO_BOTTOM then
         self.statusBar:SetOrientation("VERTICAL")
-        self.statusBar:SetFillStyle("REVERSE")
+        if setFillStyle then
+            self.statusBar:SetFillStyle("REVERSE")
+        elseif setReverseFill then
+            setReverseFill(self.statusBar, true)
+        end
     end
 
     self:SetSparkWidth()

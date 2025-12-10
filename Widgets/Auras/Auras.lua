@@ -18,7 +18,7 @@ local W = CUF.widgets
 local U = CUF.uFuncs
 
 local tinsert = table.insert
-local wipe = table.wipe
+local wipe = table.wipe or wipe
 local ceil = math.ceil
 
 -------------------------------------------------

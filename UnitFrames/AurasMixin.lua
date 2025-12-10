@@ -10,7 +10,7 @@ local const = CUF.constants
 
 local GetAuraDataByAuraInstanceID = C_UnitAuras.GetAuraDataByAuraInstanceID
 local ForEachAura = AuraUtil.ForEachAura
-local wipe = table.wipe
+local wipe = table.wipe or wipe
 
 ---@class CUFUnitButton
 local AurasMixin = {}
@@ -83,6 +83,7 @@ function AurasMixin:ParseAllAuras(ignoreBuffs, ignoreDebuffs, unit)
     wipe(self._auraBuffCache)
     wipe(self._auraDebuffCache)
 
+    local parsedBuffs, parsedDebuffs = 0, 0
     local batchCount = nil
     local usePackedAura = true
     ---@param aura AuraData
@@ -90,8 +91,10 @@ function AurasMixin:ParseAllAuras(ignoreBuffs, ignoreDebuffs, unit)
         local type = ProcessAura(aura, ignoreBuffs, ignoreDebuffs, unit)
         if type == AuraUtil.AuraUpdateChangedType.Debuff or type == AuraUtil.AuraUpdateChangedType.Dispel then
             self._auraDebuffCache[aura.auraInstanceID] = aura
+            parsedDebuffs = parsedDebuffs + 1
         elseif type == AuraUtil.AuraUpdateChangedType.Buff then
             self._auraBuffCache[aura.auraInstanceID] = aura
+            parsedBuffs = parsedBuffs + 1
         end
     end
 
@@ -104,6 +107,10 @@ function AurasMixin:ParseAllAuras(ignoreBuffs, ignoreDebuffs, unit)
         ForEachAura(self.states.unit, AuraUtil.AuraFilters.Helpful, batchCount,
             HandleAura,
             usePackedAura)
+    end
+
+    if CUF.IsInDebugMode() then
+        CUF:Log("ParseAllAuras", self:GetName(), unit, "buffs", parsedBuffs, "debuffs", parsedDebuffs, "ignore", ignoreBuffs, ignoreDebuffs)
     end
 end
 

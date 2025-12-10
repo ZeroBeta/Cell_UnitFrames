@@ -1,6 +1,11 @@
 ---@class CUF
 local CUF = select(2, ...)
 
+-- WotLK uses global wipe() instead of table.wipe()
+if not (table and table.wipe) and wipe then
+    table.wipe = wipe
+end
+
 -------------------------------------------------
 -- Cell_UnitFrames Polyfills for WotLK 3.3.5a
 -- These supplement the polyfills in Cell_Wrath
@@ -197,57 +202,67 @@ if not AuraUtil.AuraUpdateChangedType then
     }
 end
 
-if not AuraUtil.ForEachAura then
-    ---@param unit string
-    ---@param filter string "HELPFUL" or "HARMFUL"
-    ---@param batchCount number? (ignored in WotLK)
-    ---@param callback function
-    ---@param usePackedAura boolean? (ignored in WotLK)
-    function AuraUtil.ForEachAura(unit, filter, batchCount, callback, usePackedAura)
-        if not unit or not callback then return end
+---@param unit string
+---@param filter string "HELPFUL" or "HARMFUL"
+---@param batchCount number? (ignored in WotLK)
+---@param callback function
+---@param usePackedAura boolean? (ignored in WotLK)
+local function ForEachAura_Wrath(unit, filter, batchCount, callback, usePackedAura)
+    if not unit or not callback then return end
 
-        local i = 1
-        while true do
-            -- WotLK UnitAura returns: name, rank, icon, count, debuffType, duration, expirationTime, source, isStealable, shouldConsolidate, spellId
-            local name, _, icon, count, debuffType, duration, expirationTime,
-                  source, isStealable, _, spellId = UnitAura(unit, i, filter)
-            local canApplyAura = false
-            local isBossDebuff = false
+    local GetAura = UnitAura
+    if not GetAura then
+        GetAura = (filter == "HARMFUL") and UnitDebuff or UnitBuff
+    end
 
-            if not name then break end
+    local i = 1
+    while true do
+        -- WotLK UnitAura returns: name, rank, icon, count, debuffType, duration, expirationTime, source, isStealable, shouldConsolidate, spellId
+        local name, _, icon, count, debuffType, duration, expirationTime,
+              source, isStealable, _, spellId, canApplyAura, isBossDebuff = GetAura(unit, i, filter)
 
-            -- Determine if aura is from a player or player pet
-            local isFromPlayer = source and (UnitIsPlayer(source) or UnitPlayerOrPetInParty(source) or UnitPlayerOrPetInRaid(source)) or false
-            -- Check if it's the player's own aura
-            local isPlayerAura = source and (source == "player" or UnitIsUnit(source, "player")) or false
-            
-            -- Create AuraData-like table matching Retail structure
-            local auraData = {
-                name = name,
-                icon = icon,
-                applications = count or 0,
-                dispelName = debuffType or "",
-                duration = duration or 0,
-                expirationTime = expirationTime or 0,
-                sourceUnit = isPlayerAura and "player" or source,
-                isStealable = isStealable or false,
-                spellId = spellId or 0,
-                auraInstanceID = i, -- Use index as instance ID
-                isHarmful = (filter == "HARMFUL"),
-                isHelpful = (filter == "HELPFUL"),
-                isNameplateOnly = false,
-                isBossAura = isBossDebuff or false,
-                canApplyAura = canApplyAura or false,
-                -- Additional fields needed by CheckFilter
-                isFromPlayerOrPlayerPet = isFromPlayer,
-                isRaid = false, -- WotLK doesn't have a direct way to determine this, defaults to false
-            }
+        if not name then break end
 
-            callback(auraData)
-            i = i + 1
+        -- Some servers return expirationTime as time remaining instead of absolute time.
+        if duration and expirationTime and duration > 0 and expirationTime > 0 and expirationTime < duration then
+            expirationTime = GetTime() + expirationTime
         end
+
+        -- Determine if aura is from a player or player pet
+        local isFromPlayer = source and (UnitIsPlayer(source) or UnitPlayerOrPetInParty(source) or UnitPlayerOrPetInRaid(source)) or false
+        -- Check if it's the player's own aura
+        local isPlayerAura = source and (source == "player" or UnitIsUnit(source, "player")) or false
+        
+        -- Create AuraData-like table matching Retail structure
+        local auraData = {
+            name = name,
+            icon = icon,
+            applications = count or 0,
+            dispelName = debuffType or "",
+            duration = duration or 0,
+            expirationTime = expirationTime or 0,
+            sourceUnit = isPlayerAura and "player" or source,
+            isStealable = isStealable or false,
+            spellId = spellId or 0,
+            auraInstanceID = i, -- Use index as instance ID
+            isHarmful = (filter == "HARMFUL"),
+            isHelpful = (filter == "HELPFUL"),
+            isNameplateOnly = false,
+            isBossAura = isBossDebuff or false,
+            canApplyAura = canApplyAura or false,
+            -- Additional fields needed by CheckFilter
+            isFromPlayerOrPlayerPet = isFromPlayer,
+            isRaid = false, -- WotLK doesn't have a direct way to determine this, defaults to false
+        }
+
+        callback(auraData)
+        i = i + 1
     end
 end
+
+local existingForEachAura = AuraUtil.ForEachAura
+AuraUtil.ForEachAura = ForEachAura_Wrath
+AuraUtil.ForEachAura_Wrath = ForEachAura_Wrath -- expose for debugging
 
 -------------------------------------------------
 -- Frame:SetIgnoreParentAlpha polyfill
@@ -439,5 +454,3 @@ if not SPEC_WARLOCK_DESTRUCTION then SPEC_WARLOCK_DESTRUCTION = -1 end
 -- This is handled by not using empower spells
 
 -- Note: CUF:Log is not available at this early load stage
-
-

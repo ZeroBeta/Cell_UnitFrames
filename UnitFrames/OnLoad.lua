@@ -14,7 +14,7 @@ local Util = CUF.Util
 
 local UnitGUID = UnitGUID
 
-local wipe = table.wipe
+local wipe = table.wipe or wipe
 
 -------------------------------------------------
 -- MARK: Update All
