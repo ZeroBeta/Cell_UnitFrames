@@ -432,6 +432,12 @@ L.hostile = "Hostile"
 L.neutral = "Neutral"
 
 L.ImportExportColors = "Import & Export Color Settings"
+L.ImportExportAllSettings = "Import & Export All Settings"
+L.About = "About"
+L.Import = "Import"
+L.Export = "Export"
+L.Author = "Author"
+L.ABOUT_DESC = "Cell Unit Frames for WotLK 3.3.5a.\n\nPorted by Vollmer.\nOriginal by enderneko."
 
 -- Help Tips
 L.HelpTip_EditModeToggle = "Click here to position Unit Frames"

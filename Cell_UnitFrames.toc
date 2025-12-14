@@ -52,6 +52,7 @@ Menu\FaderTab.lua
 Menu\AppearanceTab.lua
 Menu\ColorTab.lua
 Menu\VisibilityTab.lua
+Menu\AboutTab.lua
 
 Widgets\Common.lua
 
