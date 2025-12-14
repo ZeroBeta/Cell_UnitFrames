@@ -441,6 +441,88 @@ end
 -- MARK: Create
 -------------------------------------------------
 
+-------------------------------------------------
+-- MARK: Import / Export
+-------------------------------------------------
+
+---@class ImportExport: Frame
+local ImportExport = {}
+
+local function Export()
+    local exportData = {}
+    exportData.CUF_DB = CUF_DB
+    exportData.layouts = {}
+    exportData.flavor = "WotLK" -- useful metadata
+    exportData.version = CUF.version
+
+    -- Get layouts from CellDB
+    if CellDB and CellDB.layouts then
+        for layoutName, layoutTable in pairs(CellDB.layouts) do
+            if layoutTable.CUFUnits then
+                exportData.layouts[layoutName] = Util:CopyDeep(layoutTable.CUFUnits)
+            end
+        end
+    end
+
+    return exportData
+end
+
+local function Import(data)
+    -- Restore CUF_DB
+    if data.CUF_DB then
+        CUF_DB = data.CUF_DB
+    end
+
+    -- Restore layouts
+    if data.layouts and CellDB and CellDB.layouts then
+        for layoutName, cufUnits in pairs(data.layouts) do
+            if CellDB.layouts[layoutName] then
+                CellDB.layouts[layoutName].CUFUnits = cufUnits
+            end
+        end
+    end
+
+    ReloadUI()
+end
+
+local function Verify(data)
+    return data and type(data) == "table" and data.CUF_DB ~= nil
+end
+
+function ImportExport:Create()
+    local sectionWidth = (generalTab.window:GetWidth() / 2) - 5
+    
+    self.frame = CUF:CreateFrame(nil, generalTab.window, sectionWidth, 50, true, true)
+    self.frame:SetPoint("TOPLEFT", copyLayoutFrom.frame, "TOPLEFT", 0, -200) -- Adjust position
+
+    local pane = Cell.CreateTitledPane(self.frame, L.ImportExportAllSettings, sectionWidth, generalTab.paneHeight)
+    pane:SetPoint("TOPLEFT")
+
+    -- Buttons
+    local importBtn = Cell.CreateButton(self.frame, L.Import, "accent-hover", { sectionWidth / 2 - 2, 20 })
+    importBtn:SetPoint("TOPLEFT", pane, "BOTTOMLEFT", 5, -10)
+
+    local exportBtn = Cell.CreateButton(self.frame, L.Export, "accent-hover", { sectionWidth / 2 - 2, 20 })
+    exportBtn:SetPoint("TOPLEFT", importBtn, "TOPRIGHT", 4, 0)
+    
+     -- Create the popup logic
+    local ieFrame
+    
+    importBtn:SetScript("OnClick", function()
+        if not ieFrame then
+            ieFrame = CUF.ImportExport:CreateImportExportFrame("All Settings", Import, Export, Verify)
+        end
+        ieFrame:ShowImport()
+    end)
+    
+    exportBtn:SetScript("OnClick", function()
+        if not ieFrame then
+            ieFrame = CUF.ImportExport:CreateImportExportFrame("All Settings", Import, Export, Verify)
+        end
+        ieFrame:ShowExport()
+    end)
+end
+
 function generalTab:Create()
     CUF:Log("|cff00ccffCreate generalTab|r")
 
@@ -455,4 +537,6 @@ function generalTab:Create()
     copyLayoutFrom:Create()
     layoutBackup:Create()
     Misc:Create()
+    ImportExport:Create()
 end
+
